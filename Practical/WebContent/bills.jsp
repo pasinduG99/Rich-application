@@ -19,7 +19,7 @@
 User Name:
 <input id="username" name="username" type="text"
 class="form-control form-control-sm">
-<br> Accoun NO:
+<br> Account NO:
 <input id="ano" name="ano" type="text"
 class="form-control form-control-sm">
 <br> Address:

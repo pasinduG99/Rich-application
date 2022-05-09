@@ -13,7 +13,7 @@ $(document).on("click", "#btnSave", function(event)
 	
 	
 	// Form validation-------------------
-	var status = validateItemForm();
+	var status = validateBillForm();
 	if (status != true)
 	{
 		$("#alertError").text(status);
@@ -66,7 +66,7 @@ function onBillSaveComplete(response, status)
 	}
 	
 	$("#hidBillNOSave").val("");
-	$("#formItem")[0].reset();
+	$("#formBill")[0].reset();
 }
 
 
@@ -120,6 +120,42 @@ function onBillDeleteComplete(response, status)
 		$("#alertError").show();
 	}
 }
+
+
+// CLIENT-MODEL   Validations     ========================================
+function validateBillForm() {
+	// UserName
+	if ($("#username").val().trim() == "") {
+		return "Insert User Name.";
+	}
+	// AccountNo
+	if ($("#ano").val().trim() == "") {
+		return "Insert Account No !";
+	}
+	// Address
+	if ($("#address").val().trim() == ""){
+		return "Insert User Address"
+	}
+	// Units
+	if ($("#units").val().trim() == ""){
+		return "Insert Units"
+	}
+	
+	// Amount
+	if ($("#amount").val().trim() == "") {
+		return "Insert Amount !";
+	}
+	// is numerical value
+	var tamount = $("#amount").val().trim();
+	if (!$.isNumeric(tamount)) {
+		return "Insert a numerical value for Amount !";
+	}
+	// convert to decimal price
+	$("#amount").val(parseFloat(tamount).toFixed(2));
+	
+	return true;
+}
+
 
 
 

@@ -65,9 +65,20 @@ function onBillSaveComplete(response, status)
 	$("#alertError").show();
 	}
 	
-	$("##hidBillNOSave").val("");
+	$("#hidBillNOSave").val("");
 	$("#formItem")[0].reset();
 }
+
+
+$(document).on("click", ".btnUpdate", function(event)
+{
+	$("#hidBillNOSave").val($(this).closest("tr").find('#hidBillNOUpdate').val());
+	$("#username").val($(this).closest("tr").find('td:eq(0)').text());
+	$("#ano").val($(this).closest("tr").find('td:eq(1)').text());
+	$("#address").val($(this).closest("tr").find('td:eq(2)').text());
+	$("#units").val($(this).closest("tr").find('td:eq(3)').text());
+	$("#amount").val($(this).closest("tr").find('td:eq(4)').text());
+});
 
 
 

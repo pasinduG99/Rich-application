@@ -43,56 +43,61 @@ public class BillGeneration {
 	
 	preparedStmt.execute();
 	con.close();
-	output = "Inserted successfully";
+	
+	String newBills = readBills();
+	output = "{\"status\":\"success\", \"data\": \"" + newBills + "\"}";
+	
+	
 	}
 	catch (Exception e)
 	{
-	output = "Error while generating the bill.";
-	System.err.println(e.getMessage());
+		output = "{\"status\":\"error\", \"data\":\"Error while generating bill.\"}";
+		System.err.println(e.getMessage());
 	}
 	return output;
 	}
 	public String readBills()
 	{
-	String output = "";
-	try
-	{
-	Connection con = connect();
-	if (con == null)
-	{return "Error while connecting to the database for reading."; }
+		String output = "";
+		try
+		{
+			Connection con = connect();
+			if (con == null)
+			{
+				return "Error while connecting to the database for reading."; 
+			}
 	// Prepare the html table to be displayed
-	output = "<table border='1'><tr><th>Name</th><th>AccountNO</th>" +
-	"<th>Address</th>" +
-	"<th>Units Consumed</th>" +
-	"<th>Amount</th>" +
-	"<th>Update</th><th>Remove</th></tr>";
+			output = "<table border='1'><tr><th>Name</th><th>AccountNO</th>" +
+			"<th>Address</th>" +
+			"<th>Units Consumed</th>" +
+			"<th>Amount</th>" +
+			"<th>Update</th><th>Remove</th></tr>";
 	String query = "select * from bills";
 	Statement stmt = con.createStatement();
 	ResultSet rs = stmt.executeQuery(query);
 	// iterate through the rows in the result set
 	while (rs.next())
 	{
-	String billno = Integer.toString(rs.getInt("billno"));
-	String username = rs.getString("username");
-	String ano= rs.getString("ano");
-	String address = rs.getString("address");
-	String units = Integer.toString(rs.getInt("units"));
-	String amount = Double.toString(rs.getDouble("amount"));
-	
-	// Add into the html table
-	
-	output += "<td>" + username + "</td>";
-	output += "<td>" + ano + "</td>";
-	output += "<td>" + address + "</td>";
-	output += "<td>" + units + "</td>";
-	output += "<td>" + amount + "</td>";
-	
-	// buttons
-	output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
-	+ "<td><form method='post' action='bill.jsp'>"
-	+ "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
-	+ "<input name='billno' type='hidden' value='" + billno
-	+ "'>" + "</form></td></tr>";
+		String billno = Integer.toString(rs.getInt("billno"));
+		String username = rs.getString("username");
+		String ano= rs.getString("ano");
+		String address = rs.getString("address");
+		String units = Integer.toString(rs.getInt("units"));
+		String amount = Double.toString(rs.getDouble("amount"));
+		
+		// Add into the html table
+		output += "<tr><td><input id='hidBillNOUpdate'name='hidBillNOUpdate' type='hidden' value='" + billno + "'>"
+				+ username + "</td>";
+		output += "<td>" + ano + "</td>";
+		output += "<td>" + address + "</td>";
+		output += "<td>" + units + "</td>";
+		output += "<td>" + amount + "</td>";
+		
+		// buttons
+		output += "<td><input name='btnUpdate' type='button' value='Update' "
+				+ "class='btnUpdate btn btn-secondary' data-billno='" + billno + "'></td>"
+				+ "<td><input name='btnRemove' type='button' value='Remove' "
+				+ "class='btnRemove btn btn-danger' data-billno='" + billno + "'></td></tr>";
 	}
 	con.close();
 	// Complete the html table
@@ -100,8 +105,8 @@ public class BillGeneration {
 	}
 	catch (Exception e)
 	{
-	output = "Error while reading the bills.";
-	System.err.println(e.getMessage());
+		output = "Error while reading the bills.";
+		System.err.println(e.getMessage());
 	}
 	return output;
 	}
@@ -111,9 +116,11 @@ public class BillGeneration {
 		String output = "";
 		try
 		{
-		Connection con = connect();
-		if (con == null)
-		{return "Error while connecting to the database for updating."; }
+			Connection con = connect();
+			if (con == null)
+		{
+			return "Error while connecting to the database for updating."; 
+		}
 		// create a prepared statement
 		String query = "UPDATE bills SET username=?,ano=?,address=?,units=?,amount=? WHERE billno=?";
 		PreparedStatement preparedStmt = con.prepareStatement(query);
@@ -127,12 +134,15 @@ public class BillGeneration {
 		// execute the statement
 		preparedStmt.execute();
 		con.close();
-		output = "Updated successfully";
+		
+		String newBills = readBills();
+		output = "{\"status\":\"success\", \"data\": \"" + newBills + "\"}";
+		
 		}
 		catch (Exception e)
 		{
-		output = "Error while updating the bill.";
-		System.err.println(e.getMessage());
+			output = "{\"status\":\"error\", \"data\":\"Error while updating the bill.\"}";
+			System.err.println(e.getMessage());
 		}
 		return output;
 		}
@@ -143,7 +153,9 @@ public class BillGeneration {
 		{
 		Connection con = connect();
 		if (con == null)
-		{return "Error while connecting to the database for deleting."; }
+		{
+			return "Error while connecting to the database for deleting."; 
+		}
 		// create a prepared statement
 		String query = "delete from bills where billno=?";
 		PreparedStatement preparedStmt = con.prepareStatement(query);
@@ -152,12 +164,13 @@ public class BillGeneration {
 		// execute the statement
 		preparedStmt.execute();
 		con.close();
-		output = "Deleted successfully";
+		String newBills = readBills();
+		output = "{\"status\":\"success\", \"data\": \"" + newBills + "\"}";
 		}
 		catch (Exception e)
 		{
-		output = "Error while deleting the bill.";
-		System.err.println(e.getMessage());
+			output = "{\"status\":\"error\", \"data\":\"Error while deleting the bill.\"}";
+			System.err.println(e.getMessage());
 		}
 		return output;
 		}

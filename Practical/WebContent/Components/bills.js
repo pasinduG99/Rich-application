@@ -80,5 +80,21 @@ $(document).on("click", ".btnUpdate", function(event)
 	$("#amount").val($(this).closest("tr").find('td:eq(4)').text());
 });
 
+$(document).on("click", ".btnRemove", function(event)
+{
+	$.ajax(
+	{
+	url : "BillGenerationAPI",
+	type : "DELETE",
+	data : "billno=" + $(this).data("billno"),
+	dataType : "text",
+	complete : function(response, status)
+	{
+		onBillDeleteComplete(response.responseText, status);
+	}
+	});
+});
+
+
 
 

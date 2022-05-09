@@ -18,7 +18,7 @@ public class BillGeneration {
 	{e.printStackTrace();}
 	return con;
 	}
-	public String insertBill(String name, String accno, String address, String units, String amount )
+	public String insertBill(String username, String ano, String address, String units, String amount )
 	{
 	String output = "";
 	try
@@ -32,8 +32,8 @@ public class BillGeneration {
 	PreparedStatement preparedStmt = con.prepareStatement(query);
 	// binding values
 	preparedStmt.setInt(1, 0);
-	preparedStmt.setString(2, name);
-	preparedStmt.setString(3, accno);
+	preparedStmt.setString(2, username);
+	preparedStmt.setString(3, ano);
 	preparedStmt.setString(4, address);
 	preparedStmt.setInt(5, Integer.parseInt (units));
 	preparedStmt.setDouble(6, Double.parseDouble(amount));
@@ -110,7 +110,7 @@ public class BillGeneration {
 	}
 	return output;
 	}
-	public String updateBill(String billno , String name , String ano, String address, String units, String amount)
+	public String updateBill(String billno , String username , String ano, String address, String units, String amount)
 	
 	{
 		String output = "";
@@ -125,7 +125,7 @@ public class BillGeneration {
 		String query = "UPDATE bills SET username=?,ano=?,address=?,units=?,amount=? WHERE billno=?";
 		PreparedStatement preparedStmt = con.prepareStatement(query);
 		// binding values
-		preparedStmt.setString(1, name);
+		preparedStmt.setString(1, username);
 		preparedStmt.setString(2, ano);
 		preparedStmt.setString(3, address);
 		preparedStmt.setInt(4, Integer.parseInt(units)) ;

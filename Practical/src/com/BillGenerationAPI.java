@@ -40,8 +40,8 @@ public class BillGenerationAPI extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		String output = billObj.insertBill(request.getParameter("name"),
-				request.getParameter("accno"),
+		String output = billObj.insertBill(request.getParameter("username"),
+				request.getParameter("ano"),
 				request.getParameter("address"),
 				request.getParameter("units"),
 				request.getParameter("amount"));
@@ -60,8 +60,8 @@ public class BillGenerationAPI extends HttpServlet {
 		Map<?, ?> paras = getParasMap(request);
 		
 		String output = billObj.updateBill(paras.get("hidBillNOSave").toString(),
-				paras.get("name").toString(),
-				paras.get("accno").toString(),
+				paras.get("username").toString(),
+				paras.get("ano").toString(),
 				paras.get("address").toString(),
 				paras.get("units").toString(),
 				paras.get("amount").toString());

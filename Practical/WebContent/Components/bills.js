@@ -32,10 +32,42 @@ $(document).on("click", "#btnSave", function(event)
 		dataType : "text",
 		complete : function(response, status)
 		{
-			onItemSaveComplete(response.responseText, status);
+			onBillSaveComplete(response.responseText, status);
 		}
 	});
 });
+
+
+function onBillSaveComplete(response, status)
+{
+	//Your code
+	if (status == "success")
+	{
+		var resultSet = JSON.parse(response);
+		if (resultSet.status.trim() == "success")
+		{
+			$("#alertSuccess").text("Successfully saved.");
+			$("#alertSuccess").show();
+			$("#divBillsGrid").html(resultSet.data);
+		} else if (resultSet.status.trim() == "error")
+		{
+			$("#alertError").text(resultSet.data);
+			$("#alertError").show();
+		}
+	
+	} else if (status == "error")
+	{
+		$("#alertError").text("Error while saving.");
+		$("#alertError").show();
+	} else	
+	{
+	$("#alertError").text("Unknown error while saving..");
+	$("#alertError").show();
+	}
+	
+	$("##hidBillNOSave").val("");
+	$("#formItem")[0].reset();
+}
 
 
 

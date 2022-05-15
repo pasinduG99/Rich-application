@@ -122,7 +122,7 @@ function onBillDeleteComplete(response, status)
 }
 
 
-// CLIENT-MODEL   Validations     ========================================
+// CLIENT-MODEL        ======================================================
 function validateBillForm() {
 	// UserName
 	if ($("#username").val().trim() == "") {
